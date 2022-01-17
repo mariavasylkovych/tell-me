@@ -11,7 +11,7 @@ console.log(announcements);
     fetch(`https://ekreative-json-server.herokuapp.com/664/announcements?_sort=createdAt&_order=desc&_limit=10`)
       .then((response) => response.json())
         .then((data) =>[
-            setAnnouncements(data)
+            setAnnouncements(data) 
         ]);
     }, []);
     
