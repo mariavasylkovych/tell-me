@@ -13,14 +13,17 @@ export const setDataUser = ({id, email, firstname, lastname, age, avatar}) => ({
     id, email, firstname, lastname, age, avatar
 })
 
-export const setGetPostsPage = async (number, postsPerPage) => async dispatch => {
+export const setGetPostsPage = async ({number, postsPerPage}) => async dispatch => {
+    const header = {"Content-Type": "application/json"}
     const response = await fetch(
-        `https://ekreative-json-server.herokuapp.com/posts?_page=${number}&_limit=${postsPerPage}`
+        `https://ekreative-json-server.herokuapp.com/posts?_page=${number}&_limit=${postsPerPage}`,
+        header
     )
         .then(response => response.json())
         .then((data) => {
             return data
         })
+    console.log(response);
     
     dispatch({
         type: GET_POSTS_PAGE,

@@ -33,7 +33,7 @@ const GetPosts = () => {
   const dispatch = useDispatch();
   const postReducer = useSelector((state) => state.postReducer);
   const postsPages = useSelector((state) => state.paginateReducer);
-  
+  console.log(postsPages);
 
   //pagination
   const lastPostIndex = currentPage * postsPerPage;
@@ -66,7 +66,7 @@ const GetPosts = () => {
     };
 
     axios.patch(
-      `https://ekreative-json-server.herokuapp.com/664/post/`,
+      `https://ekreative-json-server.herokuapp.com/664/post`,
       updateDataPost,
       {headers}
     );
