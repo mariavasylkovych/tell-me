@@ -1,0 +1,84 @@
+@import "../variables";
+
+.comments-of-post {
+  width: 800px;
+  height: 100%;
+  margin: 0 30px;
+  background-color: rgb(238, 238, 238);
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  // padding: 30px;
+
+  h3 {
+    color: $grey;
+  }
+
+  div {
+    ul {
+      margin: 20px;
+    }
+  }
+
+  .comment-data {
+    display: flex;
+
+    .comment-content {
+      display: flex;
+      padding: 0 10px;
+    //   flex-direction: column;
+
+      // align-items: center;
+      // justify-content: end;
+
+      .user-of-comment {
+        p {
+          font-size: 14px;
+          color: $grey;
+          height: 7px;
+        }
+      }
+
+      button {
+        border-left: solid $grey 1.5px;
+        height: 30px;
+        font-size: 10px;
+        border-top: none;
+        border-bottom: none;
+        border-right: none;
+        padding: 5px;
+        margin: 0 0 0 5%;
+      }
+
+      button:hover {
+        border-left: solid $yellow 1.5px;
+      }
+    }
+  }
+
+  .comment-input-block {
+    display: flex;
+    align-items: center;
+    // justify-content: end;
+    margin: 10px 10px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50px;
+    }
+
+    input {
+      margin-left: 10px;
+      width: 70%;
+      border: solid 1px $grey;
+      height: 25px;
+    }
+
+    button {
+      color: $grey;
+      font-size: 40px;
+      margin: 0 10px;
+      border: none;
+    }
+  }
+}
