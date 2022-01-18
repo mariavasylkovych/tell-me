@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { setGetPostsPage } from '../redux/action'
 import '../scss/components/pagination.scss'
 
@@ -16,7 +17,7 @@ const Pagination = ({ postsPerPage, totalPosts }) => {
         <div className='pagination'>
             {
                 paginPageWithPosts.map(number => (
-                    <li key={number} onClick={() => dispatch(setGetPostsPage(number, postsPerPage))}>{number}</li>
+                    <li type="button" key={number} onClick={() => dispatch(setGetPostsPage(number, postsPerPage))}>{number}</li>
                 ))
             }
         </div>

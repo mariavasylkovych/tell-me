@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import "../scss/components/comments.scss";
+import '../scss/components/comments.scss'
 
 var currentdate = new Date();
 var datetime =
@@ -33,7 +33,7 @@ const Comments = ({ postId }) => {
   });
   // console.log(dataComment);
 
-    // let dataAboutUser = JSON.parse(localStorage.user);
+    let dataAboutUser = JSON.parse(localStorage.user);
 
   React.useEffect(() => {
     fetch(
@@ -174,7 +174,7 @@ const updateDiv = (postId) =>
   return (
     <div className="comments-of-post">
       <h3>comments</h3>
-      {/* {localStorage.getItem("token") ? (
+      {localStorage.getItem("token") ? (
         <div className="comment-input-block">
           <img
             src={dataAboutUser.avatar}
@@ -185,7 +185,7 @@ const updateDiv = (postId) =>
         </div>
       ) : (
         ""
-      )} */}
+      )}
 
       {comments.map((comment) => (
             <div key={comment.id} className="comment-data">
@@ -215,8 +215,8 @@ const updateDiv = (postId) =>
                     ))}
                     <div key={comment.id + 3 + "li"} className="comment-content" >
                       <p>{comment.body}</p>
-                    {/* {localStorage.getItem('token') && dataAboutUser.id === comment.userId ? (
-                      <div key={comment.id + 1}>
+                    {localStorage.getItem('token') && dataAboutUser.id === comment.userId ? (
+                      <div key={comment.id + 1} className="button-block">
                         <button onClick={() => openUpdateBlock(comment.id, comment.body)}>
                           Update
                         </button>
@@ -229,7 +229,7 @@ const updateDiv = (postId) =>
                       </div>
                     ) : (
                       ""
-                    )} */}
+                    )}
                   </div>
                 </div>
               )}

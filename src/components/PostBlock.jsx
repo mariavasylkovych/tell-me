@@ -28,7 +28,7 @@ var datetime =
 const PostBlock = ({ id, title, body, userId, createdAt }) => {
   const [usersData, setUsersData] = React.useState([]);
 
-  // let data = JSON.parse(localStorage.user);
+  let data = JSON.parse(localStorage.user);
 
   const dispatch = useDispatch();
 
@@ -57,12 +57,12 @@ const PostBlock = ({ id, title, body, userId, createdAt }) => {
       <div className="content-post">
         <div className="content">
           <h3>{title}</h3>
-          <p>{body}</p>
-          <p>
+          <p className="post-body">{body}</p>
+          <p className="post-user">
             {usersData.firstname} {usersData.lastname}
           </p>
         </div>
-        {/* {localStorage.getItem("token") && usersData.id === data.id ? (
+        {localStorage.getItem("token") && usersData.id === data.id ? (
           <div className="content-button">
             <button
               className={classNames("button-post", "button")}
@@ -79,7 +79,7 @@ const PostBlock = ({ id, title, body, userId, createdAt }) => {
           </div>
         ) : (
           ""
-        )} */}
+        )}
       </div>
       <Comments postId={id} />
     </div>

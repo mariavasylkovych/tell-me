@@ -24,7 +24,8 @@
 
     .comment-content {
       display: flex;
-      padding: 0 10px;
+      align-items: center;
+      padding: 10px;
     //   flex-direction: column;
 
       // align-items: center;
@@ -37,7 +38,7 @@
           height: 7px;
         }
       }
-
+.button-block {
       button {
         border-left: solid $grey 1.5px;
         height: 30px;
@@ -51,7 +52,7 @@
 
       button:hover {
         border-left: solid $yellow 1.5px;
-      }
+      }}
     }
   }
 
