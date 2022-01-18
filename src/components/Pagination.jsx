@@ -17,7 +17,7 @@ const Pagination = ({ postsPerPage, totalPosts }) => {
         <div className='pagination'>
             {
                 paginPageWithPosts.map(number => (
-                    <li type="button" key={number} onClick={() => dispatch(setGetPostsPage(number, postsPerPage))}>{number}</li>
+                  <a key={number} href="#posts"><button   onClick={() => dispatch(setGetPostsPage(number, postsPerPage))}>{number}</button></a>
                 ))
             }
         </div>

@@ -1,6 +1,7 @@
 export const ADD_DATA_TO_EDIT = "ADD_DATA_TO_EDIT";
 export const DATA_USER = "DATA_USER";
 export const GET_POSTS_PAGE = "GET_POSTS_PAGE";
+export const ANNOUN_USER = "ANNOUN_USER";
 
 export const setAddData = ({ id, title, body, userId, createdAt, key }) => ({
   type: ADD_DATA_TO_EDIT,
@@ -42,5 +43,21 @@ export const setGetPostsPage = (number, postsPerPage) => async (dispatch) => {
   dispatch({
     type: GET_POSTS_PAGE,
     posts: response,
+  });
+};
+
+export const setAnnounUser = (userId) => async (dispatch) => {
+  // const header = {"Content-Type": "application/json"}
+  const response = await fetch(
+    `https://ekreative-json-server.herokuapp.com/users/${userId}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+
+  dispatch({
+    type: ANNOUN_USER,
+    dataUser: response,
   });
 };

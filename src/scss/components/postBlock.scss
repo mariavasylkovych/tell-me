@@ -3,7 +3,7 @@
 .post-block {
     display: flex;
     margin: 40px 0;
-    height: 500px;
+    // height: 500px;
     
     .content-post {
         display: flex;
@@ -34,7 +34,7 @@
             }
 
             .button-post:hover {
-                background-color: rgba(255, 252, 52, 0.185);
+                background-color: rgba(255, 252, 52, 0.116);
             }
         }
     }

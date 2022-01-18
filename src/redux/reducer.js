@@ -1,4 +1,4 @@
-import { ADD_DATA_TO_EDIT, DATA_COMMENT, DATA_USER, GET_POSTS_PAGE } from "./action";
+import { ADD_DATA_TO_EDIT, ANNOUN_USER, DATA_COMMENT, DATA_USER, GET_POSTS_PAGE } from "./action";
 
 
 export const postReducer = (state=[], action) => {
@@ -45,6 +45,16 @@ export const paginateReducer = (state = [], action) => {
     switch (action.type) {
         case GET_POSTS_PAGE:
             return state= action.posts
+        default:
+            return state;
+    }
+}
+
+export const announReducer = (state = [], action) => {
+    switch (action.type) {
+        case ANNOUN_USER:
+            console.log(action.dataUser);
+            return state = action.dataUser
         default:
             return state;
     }

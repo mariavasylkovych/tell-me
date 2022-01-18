@@ -12,7 +12,7 @@ function Home() {
   // const dataUser = useSelector(state => state.userReducer)
   // console.log(dataUser);
 
-  // let data = JSON.parse(localStorage.user)
+  let data = JSON.parse(localStorage.user)
 
     const openMenu = () => {
         document.getElementById('menu').classList.toggle("show")  
@@ -29,10 +29,10 @@ function Home() {
         <div className="for-autho-user">
          
           <div className="menu-block">
-            {/* <div className="data-of-user">
+            <div className="data-of-user">
             <img className="avatar" src={data.avatar} alt="" />
             <Link to='user-page'><p>{data.firstname} {data.lastname}</p></Link>
-          </div> */}
+          </div>
             <img  src="https://img.icons8.com/ios-glyphs/30/ffffff/menu--v1.png" onClick={openMenu} className="menu-icon"/>
             <ul id="menu">
               <Link to="create"><li>Cre<span>a</span>te</li></Link>

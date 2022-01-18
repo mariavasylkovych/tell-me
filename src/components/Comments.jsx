@@ -31,7 +31,6 @@ const Comments = ({ postId }) => {
     openUptComm: false,
     id: ''
   });
-  // console.log(dataComment);
 
     let dataAboutUser = JSON.parse(localStorage.user);
 
@@ -65,6 +64,7 @@ const Comments = ({ postId }) => {
   }, []);
 
   const handleChangeUserComment = (e) => {
+    e.preventDefault()
     setNewComment(e.target.value);
   };
 
@@ -92,7 +92,7 @@ const Comments = ({ postId }) => {
     axios.patch(
       `https://ekreative-json-server.herokuapp.com/664/comments/${id}`,
       data,
-      { headers }
+     headers 
     );
 
     setUpdateCommentBody((prevState) => ({
@@ -120,7 +120,7 @@ const Comments = ({ postId }) => {
     axios.post(
       `https://ekreative-json-server.herokuapp.com/664/comments`,
       data,
-      { headers }
+       headers 
     );
     document.location.reload(true)
     
@@ -190,7 +190,7 @@ const updateDiv = (postId) =>
       {comments.map((comment) => (
             <div key={comment.id} className="comment-data">
               {updateCommentBody.openUptComm && comment.id === updateCommentBody.id ? (
-                <div className="comment-content">
+                <div className="comment-content-for-update">
                   <input
                     type="text"
                     value={updateCommentBody.value}
