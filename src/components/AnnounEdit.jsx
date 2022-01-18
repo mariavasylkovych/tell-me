@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./index";
 import "../scss/components/createPost.scss";
+import { useSelector } from "react-redux";
 
 var currentdate = new Date();
 var datetime =
@@ -18,56 +19,63 @@ var datetime =
   ":" +
   currentdate.getSeconds();
 
-function CreateAnnouncement() {
-  const [announ, setAnnoun] = React.useState({
-    title: "",
-    body: "",
+function AnnounEdit() {
+
+  const [editAnnoun, setEditAnnoun] = React.useState({
+    title: '',
+    body: '',
   });
+  const dataAnnoun = useSelector(state => state.announReducer)
+console.log(dataAnnoun);
 
-  let dataAboutUser = JSON.parse(localStorage.user);
-
-  const getCreateAnnoun = () => {
+  const getUpdateAnnoun = () => {
     const data = {
-      title: announ.title,
-      body: announ.body,
-      userId: dataAboutUser.id,
-      createAt: datetime,
-      updatedAt: '',
+      title: editAnnoun.title,
+      body: editAnnoun.body,
+      updatedAt: datetime,
     };
 
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.post("https://ekreative-json-server.herokuapp.com/664/posts", data, {
+    axios.patch(`https://ekreative-json-server.herokuapp.com/664/announcements/${dataAnnoun.id}`, data, {
       headers,
     });
   };
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setAnnoun((prevState) => ({ ...prevState, [e.target.name]: value }));
+    setEditAnnoun((prevState) => ({ ...prevState, [e.target.name]: value }));
   }
+    
+    const deleteAnnoun = () => {
+        const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
+    };
+
+    axios.delete(`https://ekreative-json-server.herokuapp.com/664/announcements/${dataAnnoun.id}`,
+        headers
+      );
+    }
 
   return (
     <div className="create-post">
-      <h2>write new announcement</h2>
+      <h2>edit or delete this announcement</h2>
       <form action="">
         <div className="title-block">
           <input
             type="text"
             className="input-for-title"
-            value={announ.title}
+            value={dataAnnoun.title}
             name="title"
-            placeholder="title of your announcement"
             onChange={handleChange}
           />
           <textarea
             type="text"
             className="input-for-post"
-            value={announ.body}
+            value={dataAnnoun.body}
             name="body"
-            placeholder="text of your news"
             onChange={handleChange}
           ></textarea>
         </div>
@@ -76,10 +84,14 @@ function CreateAnnouncement() {
           <Button
             type="button"
             className="button-create"
-            onClick={getCreateAnnoun}
+            onClick={getUpdateAnnoun}
           >
-            Create
-          </Button>
+            Update
+                  </Button>
+                  <Button onClick={deleteAnnoun} type="button"
+            className="button-create">
+                      Delete
+                  </Button>
         </Link>
       </form>
      <Link to='/' className="logo"><h2 className="logo">Tell <span>me</span></h2></Link>
@@ -87,4 +99,4 @@ function CreateAnnouncement() {
   );
 }
 
-export default CreateAnnouncement;
+export default AnnounEdit;

@@ -72,10 +72,10 @@ function Home() {
             <Link to="/signup">
               <Button className="button-home">Register</Button>
             </Link>
-            {/* <Link to=''><span className='arrow'>&#709;</span></Link> */}
+            <Link to=''><span className='arrow'>&#709;</span></Link>
           </div>
-        </div>
-      )}
+        // </div>
+        )} 
       <div className="home-content">
          <GetPosts />
         {/* <NavLink to={'/login'}>Login</NavLink><br/>

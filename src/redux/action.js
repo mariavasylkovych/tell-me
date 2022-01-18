@@ -2,6 +2,7 @@ export const ADD_DATA_TO_EDIT = "ADD_DATA_TO_EDIT";
 export const DATA_USER = "DATA_USER";
 export const GET_POSTS_PAGE = "GET_POSTS_PAGE";
 export const ANNOUN_USER = "ANNOUN_USER";
+export const DATA_EDIT_ANNOUN = "DATA_EDIT_ANNOUN";
 
 export const setAddData = ({ id, title, body, userId, createdAt, key }) => ({
   type: ADD_DATA_TO_EDIT,
@@ -61,3 +62,8 @@ export const setAnnounUser = (userId) => async (dispatch) => {
     dataUser: response,
   });
 };
+
+export const setDataEditAnnoun = (data) => ({
+  type: DATA_EDIT_ANNOUN,
+  data
+})

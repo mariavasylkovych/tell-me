@@ -50,11 +50,19 @@ export const paginateReducer = (state = [], action) => {
     }
 }
 
-export const announReducer = (state = [], action) => {
+export const announUserReducer = (state = [], action) => {
     switch (action.type) {
         case ANNOUN_USER:
-            console.log(action.dataUser);
             return state = action.dataUser
+        default:
+            return state;
+    }
+}
+export const announReducer = (state = {}, action) => {
+    switch (action.type) {
+        case ANNOUN_USER:
+            console.log(action.data);
+            return state = action.data
         default:
             return state;
     }
