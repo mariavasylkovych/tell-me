@@ -1,4 +1,4 @@
-import { ADD_DATA_TO_EDIT, ANNOUN_USER, DATA_COMMENT, DATA_USER, GET_POSTS_PAGE } from "./action";
+import { ADD_DATA_TO_EDIT, ANNOUN_USER, DATA_COMMENT, DATA_OF_POST, DATA_USER, GET_POSTS_PAGE } from "./action";
 
 
 export const postReducer = (state=[], action) => {
@@ -63,6 +63,22 @@ export const announReducer = (state = {}, action) => {
         case ANNOUN_USER:
             console.log(action.data);
             return state = action.data
+        default:
+            return state;
+    }
+}
+
+export const dataPostReducer = (state = {}, action) => {
+    switch (action.type) {
+        case DATA_OF_POST:
+            return {
+                ...state,
+                id: action.id,
+                title: action.title,
+                body: action.body,
+                userId: action.userId,
+                postId: action.postId,
+    }            
         default:
             return state;
     }

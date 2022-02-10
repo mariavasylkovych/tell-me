@@ -46,7 +46,7 @@ function CreatePost() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setPost((prevState) => ({ ...prevState, [e.target.name]: value }));
+    setPost((prevState) => ({ ...prevState, [name]: value }));
   }
 
   return (
@@ -72,14 +72,12 @@ function CreatePost() {
           ></textarea>
         </div>
 
-        <Link to='/'>
-          <Button
+        <Link to='/'
             type="button"
             className="button-create"
-            onClick={getCreatePost}
+            onClick={() => getCreatePost()}
           >
             Create
-          </Button>
         </Link>
       </form>
      <Link to='/' className="logo"><h2 className="logo">Tell <span>me</span></h2></Link>

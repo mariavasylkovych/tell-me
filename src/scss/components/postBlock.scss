@@ -1,41 +1,20 @@
-@import '../variables';
+@import "../variables";
 
 .post-block {
-    display: flex;
-    margin: 40px 0;
-    // height: 500px;
-    
-    .content-post {
-        display: flex;
-        width: 60%;
-        padding: 0 30px ;
-        border-right: solid $yellow 2px;
+  margin: 40px 0;
+  width: 50%;
 
+  .post-title {
+    font-size: 20px;
+  }
 
-        .post-body {
-            margin: 20px 0;
-        }
+  .post-title:hover {
+    border-bottom: solid $yellow 1px;
+  }
 
-
-        .post-user {
-        }
-
-        .content-button {
-            margin: 20px 0 0 15px;
-            // padding: 10px 0 0 0 ; 
-
-
-            .button-post {
-                border-radius: 50px;
-                width:80px;
-                height:20px;
-                margin: 5px 0;
-                border: solid black 1px ;
-            }
-
-            .button-post:hover {
-                background-color: rgba(255, 252, 52, 0.116);
-            }
-        }
-    }
+  .post-user {
+    font-size: 13px;
+    color: $grey;
+    margin: 10px 0 0 0;
+  }
 }

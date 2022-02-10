@@ -39,14 +39,14 @@ function CreateAnnouncement() {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.post("https://ekreative-json-server.herokuapp.com/664/posts", data, {
+    axios.post("https://ekreative-json-server.herokuapp.com/664/announcements", data, {
       headers,
     });
   };
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setAnnoun((prevState) => ({ ...prevState, [e.target.name]: value }));
+    setAnnoun((prevState) => ({ ...prevState, [name]: value }));
   }
 
   return (
@@ -72,14 +72,12 @@ function CreateAnnouncement() {
           ></textarea>
         </div>
 
-        <Link to='/'>
-          <Button
+        <Link to='/'
             type="button"
             className="button-create"
-            onClick={getCreateAnnoun}
-          >
+            onClick={() => getCreateAnnoun()}
+        >
             Create
-          </Button>
         </Link>
       </form>
      <Link to='/' className="logo"><h2 className="logo">Tell <span>me</span></h2></Link>

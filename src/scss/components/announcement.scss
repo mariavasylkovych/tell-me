@@ -1,12 +1,12 @@
 @import "../variables";
 
 .announcements-home {
-  margin: 15% 0;
+  // margin: 15% 0;
   background-color: rgba(209, 209, 209, 0.377);
 
   .header-announs {
     // text-align: end;
-    font-size: 20px;
+    font-size: 25px;
     color: $grey;
     font-weight: 700;
     margin: 10px 0 0 0;
@@ -16,6 +16,38 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+
+    // .announ-edit {
+    //  display: flex;
+    //  flex-direction: column;
+    //  justify-content: space-between;
+    //  width: 30%;
+    //  height: auto;
+    //  margin: 4%;
+    //  padding: 2% 2% 0 2%;
+    //  border: solid $yellow 1px;
+
+    //  .input-title {
+    //    border: solid $grey 1px;
+    //    height: 20px;
+    //    padding: 3px;
+    //  }
+
+    //  .input-body {
+    //    height: 100px;
+    //    margin: 5px 0;
+    //    border: solid $grey 1px;
+    //    padding: 3px;
+    //  }
+
+    //  .button-edit-announ {
+    //    width: 80px;
+    //    border-radius: 50px;
+    //    font-size: 11px;
+    //    border: solid black 1px;
+    //    padding: 2px;
+    //  }
+    // }
 
     .announ {
       display: flex;
@@ -27,13 +59,31 @@
       padding: 2% 2% 0 2%;
       border: solid $yellow 1px;
 
+      .input-title {
+        border: solid $grey 1px;
+        height: 20px;
+        padding: 3px;
+      }
+
+      .input-body {
+        height: 100px;
+        margin: 10px 0;
+        border: solid $grey 1px;
+        padding: 3px;
+      }
+
       .body-announ {
         margin: 8% 0;
       }
 
       .buttom-announ {
         display: flex;
+        justify-content: space-between;
         margin: 0 0 2px 0;
+
+        .name-user {
+          font-size: 13px;
+        }
 
 
         .button-edit-announ {

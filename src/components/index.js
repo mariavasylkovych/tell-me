@@ -1,5 +1,5 @@
-export { default as Announcements } from './Announcements'
-export { default as Comments } from './Comments'
+// export { default as Announcements } from './Announcements'
+export { default as Comments } from './Comment'
 export { default as CreatePost } from './CreatePost'
 export { default as GetPosts } from './GetPosts'
 export { default as PostBlock } from './PostBlock'
