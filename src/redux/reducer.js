@@ -77,7 +77,6 @@ export const dataPostReducer = (state = {}, action) => {
                 title: action.title,
                 body: action.body,
                 userId: action.userId,
-                postId: action.postId,
     }            
         default:
             return state;

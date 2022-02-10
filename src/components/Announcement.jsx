@@ -64,7 +64,7 @@ const Announcement = ({ id, title, body, userId }) => {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.post(
+    axios.patch(
       `https://ekreative-json-server.herokuapp.com/664/announcements/${id}`,
       data,
       { headers }

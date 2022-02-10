@@ -27,7 +27,7 @@ const GetPosts = () => {
   const [announcements, setAnnouncements] = React.useState([]);
   const [postsPerPage] = React.useState(10);
   const postsPages = useSelector((state) => state.paginateReducer);
-  console.log(postsPages);
+  // console.log(postsPages);
 
   React.useEffect(() => {
     fetch(`https://ekreative-json-server.herokuapp.com/664/posts`)

@@ -23,18 +23,55 @@
         }
     }
 
+    .content-post-edit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .input-title {
+            width: 70%;
+            height: 30px;
+            padding: 3px;
+        }
+
+        .input-body {
+            width: 70%;
+            height: 400px;
+            padding: 10px;
+            margin: 20px;
+        }
+
+        .button-post {
+            border-radius: 50px;
+            width: 80px;
+            height: 20px;
+            margin: 0 5px;
+            border: solid white 1px;
+            color: white;
+        }
+
+        .button-post:hover {
+            border: solid $yellow 1px;
+            color: $yellow;
+        }
+    }
+
     .content-post {
-        margin: 70px 0 100px;
+        margin: 70px 0 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         .content {
             h3 {
                 color: white;
                 font-size: 30px;
-                text-align: center;
+                // text-align: center;
                 margin: 0 0 40px 0;
             }
 
             .post-body {
+                // text-align: center;
                 color: $grey;
                 margin: 20px 0;
                 font-size: 18px;
@@ -48,6 +85,7 @@
 
             .post-user {
                 color: $yellow;
+                text-align: start;
             }
 
             .content-button {

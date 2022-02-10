@@ -40,11 +40,10 @@ const PostBlock = ({ id, title, body, userId, postId }) => {
         // console.log(data);
       });
   }
-
   return (
     <div className="post-block" id={`post-${id}`}>
         <div className="content">
-          <Link to='/post' className="post-title" onClick={() => dispatch(setDataOfPost(id, title, body, userId, postId))}>{title}</Link>
+          <Link to='/post' className="post-title" onClick={() => dispatch(setDataOfPost(id, title, body, userId))}>{title}</Link>
           <p className="post-user">
             {usersData.firstname} {usersData.lastname}
           </p>

@@ -3,8 +3,8 @@ import classNames from "classnames";
 import React from "react";
 import { useSelector } from "react-redux";
 import Comment from "./Comment";
-import '../scss/components/post.scss'
-import '../scss/components/comments.scss'
+import "../scss/components/post.scss";
+import "../scss/components/comments.scss";
 import { Link } from "react-router-dom";
 
 var currentdate = new Date();
@@ -25,42 +25,86 @@ const Post = () => {
   const [usersData, setUsersData] = React.useState([]);
   const [comments, setComments] = React.useState([]);
   const [newComment, setNewComment] = React.useState("");
+  const [updPost, setUpdPost] = React.useState({
+    body: "",
+    title: "",
+    openEdit: false,
+  });
 
   let data = JSON.parse(localStorage.user);
   const dataPost = useSelector((state) => state.dataPostReducer);
-  console.log(dataPost);
 
   React.useEffect(() => {
-    fetch(`https://ekreative-json-server.herokuapp.com/users/${dataPost.userId}`)
+    fetch(
+      `https://ekreative-json-server.herokuapp.com/users/${dataPost.userId}`
+    )
       .then((response) => response.json())
       .then((data) => {
         setUsersData(data);
       });
   }, []);
-    
-    
 
-    function deletePost() {
-        const headers = {
+  const deletePost = (id) => {
+    const headers = {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
-      }
-    axios.delete(`https://ekreative-json-server.herokuapp.com/664/post/${dataPost.id}`, {headers});
-  }
+    };
+    axios.delete(
+      `https://ekreative-json-server.herokuapp.com/664/posts/${id}`,
+      { headers }
+    );
+  };
 
   React.useEffect(() => {
     getDataComment();
   }, []);
-  console.log(dataPost.postId);
 
   const getDataComment = () => {
     fetch(
-      `https://ekreative-json-server.herokuapp.com/comments?postId=${dataPost.postId}&_sort=createdAt&_order=asc`
+      `https://ekreative-json-server.herokuapp.com/comments?postId=${dataPost.id}&_sort=createdAt&_order=asc`
     )
       .then((response) => response.json())
       .then((data) => {
-        // setComments(data);
-        console.log(data);
+        setComments(data);
       });
+  };
+
+  const openEditPost = (body, title) => {
+    setUpdPost({
+      body,
+      title,
+      openEdit: true,
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUpdPost((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const updatePost = (title, body, id) => {
+    const data = {
+      title,
+      body,
+      updateAt: datetime,
+    };
+
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
+    };
+
+    axios.patch(
+      `https://ekreative-json-server.herokuapp.com/664/posts/${id}`,
+      data,
+      { headers }
+    );
+
+    setUpdPost((prevState) => ({
+      ...prevState,
+      openEdit: false,
+    }));
   };
 
   const handleChangeUserComment = (e) => {
@@ -92,55 +136,85 @@ const Post = () => {
 
   return (
     <div className="post" id={`post-${dataPost.id}`}>
-     <Link to='/' className="logo"><h2 className="logo">Tell <span>me</span></h2></Link>
-      <div className="content-post">
-        <div className="content">
-          <h3 >{dataPost.title}</h3>
-          <p className="post-body">{dataPost.body}</p>
-          
+      <Link to="/" className="logo">
+        <h2 className="logo">
+          Tell <span>me</span>
+        </h2>
+      </Link>
+      {updPost.openEdit ? (
+        <div className="content-post-edit">
+          <input
+            className="input-title"
+            value={updPost.title}
+            onChange={handleChange}
+            name="title"
+            type="text"
+          />
+          <textarea
+            className="input-body"
+            value={updPost.body}
+            onChange={handleChange}
+            name="body"
+          />
+          <button
+            className={classNames("button-post", "button")}
+            onClick={() => updatePost(updPost.title, updPost.body, dataPost.id)}
+          >
+            Edit
+          </button>
         </div>
-         <div className="bottom-content">
-        <p className="post-user">{usersData.firstname} {usersData.lastname}</p>
-        {localStorage.getItem("token") && usersData.id === data.id ? (
-          <div className="content-button">
-            <button
-              className={classNames("button-post", "button")}
-              onClick={() => {}}
-            >
-              Edit
-            </button>
-            <button
-              className={classNames("button-post", "button")}
-              onClick={deletePost}
-            >
-              Delete
-            </button>
+      ) : (
+        <div className="content-post">
+          <div className="">
+            <div className="content">
+              <h3>{dataPost.title}</h3>
+              <p className="post-body">{dataPost.body}</p>
+            </div>
+            <div className="bottom-content">
+              <p className="post-user">
+                {usersData.firstname} {usersData.lastname}
+              </p>
+              {localStorage.getItem("token") && usersData.id === data.id ? (
+                <div className="content-button">
+                  <button
+                    className={classNames("button-post", "button")}
+                    onClick={() => openEditPost(dataPost.body, dataPost.title)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className={classNames("button-post", "button")}
+                    onClick={() => deletePost(dataPost.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-        ) : (
-          ""
-          )}
+          <div className="comments-of-post">
+            <h3>comments</h3>
+            {comments.map((comment) => (
+              <Comment key={comment.id} {...comment} />
+            ))}
+            {localStorage.getItem("token") ? (
+              <div className="comment-input-block">
+                <img src={data.avatar} alt="" />
+                <input
+                  type="text"
+                  value={newComment}
+                  onChange={handleChangeUserComment}
+                />
+                <button onClick={() => addComment(dataPost.id)}>&#43;</button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
-      </div>
-      <div className="comments-of-post">
-        <h3>comments</h3>
-        {localStorage.getItem("token") ? (
-          <div className="comment-input-block">
-            <img src={data.avatar} alt="" />
-            <input
-              type="text"
-              value={newComment}
-              onChange={handleChangeUserComment}
-            />
-            <button onClick={() => addComment(dataPost.id)}>&#43;</button>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {comments.map((comment) => (
-          <Comment {...comment} />
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -102,11 +102,8 @@ const Comment = ({ id, body, userId }) => {
           </button>
         </div>
       ) : (
-        <div key={id} className="comment-content">
-          <div>
-            {usersData.firstname} {usersData.lastname}
-          </div>
-          <div key={id + 3 + "li"} className="comment-content">
+            <div key={id + 3 + "li"} className="comment-content">
+              <img className="user-avatar" src={usersData.avatar} alt="" />
             <p>{body}</p>
             {localStorage.getItem("token") && dataAboutUser.id === userId ? (
               <div key={id + 1} className="button-block">
@@ -121,7 +118,6 @@ const Comment = ({ id, body, userId }) => {
               ""
             )}
           </div>
-        </div>
       )}
     </div>
   );

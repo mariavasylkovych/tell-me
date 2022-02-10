@@ -9,7 +9,8 @@
     url(https://images.pexels.com/photos/9225270/pexels-photo-9225270.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center top;
+  // background-attachment: fixed;
+  background-position: top;
   background-color: rgb(182, 182, 182);
   height: 800px;
 }
