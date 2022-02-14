@@ -6,6 +6,8 @@ import Comment from "./Comment";
 import "../scss/components/post.scss";
 import "../scss/components/comments.scss";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setDataOfPost, setPosts } from "../redux/action";
 
 var currentdate = new Date();
 var datetime =
@@ -29,12 +31,18 @@ const Post = () => {
     body: "",
     title: "",
     openEdit: false,
+    response: {}
   });
 
   let data = JSON.parse(localStorage.user);
   const dataPost = useSelector((state) => state.dataPostReducer);
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
+    getDataUser()
+  }, []);
+
+  const getDataUser = () => {
     fetch(
       `https://ekreative-json-server.herokuapp.com/users/${dataPost.userId}`
     )
@@ -42,7 +50,7 @@ const Post = () => {
       .then((data) => {
         setUsersData(data);
       });
-  }, []);
+  }
 
   const deletePost = (id) => {
     const headers = {
@@ -52,6 +60,7 @@ const Post = () => {
       `https://ekreative-json-server.herokuapp.com/664/posts/${id}`,
       { headers }
     );
+
   };
 
   React.useEffect(() => {
@@ -84,7 +93,8 @@ const Post = () => {
     }));
   };
 
-  const updatePost = (title, body, id) => {
+  const updatePost = async (title, body, id) => {
+
     const data = {
       title,
       body,
@@ -95,16 +105,23 @@ const Post = () => {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.patch(
+    await axios.patch(
       `https://ekreative-json-server.herokuapp.com/664/posts/${id}`,
       data,
       { headers }
-    );
+    )
 
+    await axios.get(`https://ekreative-json-server.herokuapp.com/664/posts/${id}`)
+      .then(response => dispatch(setDataOfPost(response.data.id, response.data.body, response.data.title, response.data.userId)));
+    
+    await axios.get('https://ekreative-json-server.herokuapp.com/posts')
+    .then(response => dispatch(setPosts(response.data)))
+    
     setUpdPost((prevState) => ({
       ...prevState,
-      openEdit: false,
-    }));
+      openEdit: false
+    }))
+
   };
 
   const handleChangeUserComment = (e) => {
@@ -130,6 +147,8 @@ const Post = () => {
       data,
       headers
     );
+
+    
 
     // updateDiv(postId)
   };
@@ -182,12 +201,13 @@ const Post = () => {
                   >
                     Edit
                   </button>
-                  <button
+                    <Link
+                      to={'/'}
                     className={classNames("button-post", "button")}
                     onClick={() => deletePost(dataPost.id)}
                   >
                     Delete
-                  </button>
+                  </Link>
                 </div>
               ) : (
                 ""

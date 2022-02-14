@@ -1,13 +1,13 @@
-import axios from "axios";
+// import axios from "axios";
 import React from "react";
 import "../scss/components/postBlock.scss";
 // import "../scss/components/getPosts.scss";
 
 import { Route, Link, NavLink } from "react-router-dom";
-import classNames from "classnames";
+// import classNames from "classnames";
 import { setAddData, setDataOfPost } from "../redux/action";
 import { useDispatch } from "react-redux";
-import Comments from "./Comment";
+// import Comments from "./Comment";
 
 var currentdate = new Date();
 var datetime =

@@ -1,10 +1,11 @@
+// import classNames from 'classnames'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { setGetPostsPage } from '../redux/action'
 import '../scss/components/pagination.scss'
 
 const Pagination = ({ postsPerPage, totalPosts }) => {
+    // const [active, setActive] = React.useState(false)
     const paginPageWithPosts = []
 
     const dispatch = useDispatch()
@@ -13,11 +14,17 @@ const Pagination = ({ postsPerPage, totalPosts }) => {
         paginPageWithPosts.push(i)
     }
 
+    const pagFunc = (number) => {
+        dispatch(setGetPostsPage(number, postsPerPage))
+        // paginate(number)
+        // setActive(true)
+}
+
     return (
         <div className='pagination'>
             {
-                paginPageWithPosts.map(number => (
-                  <a key={number} href="#posts"><button   onClick={() => dispatch(setGetPostsPage(number, postsPerPage))}>{number}</button></a>
+                paginPageWithPosts.map((number, index) => (
+                 <button key={number} onClick={() => pagFunc(number)}>{number}</button>
                 ))
             }
         </div>

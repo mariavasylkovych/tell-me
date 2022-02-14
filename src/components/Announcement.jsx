@@ -18,6 +18,7 @@ var datetime =
 
 const Announcement = ({ id, title, body, userId }) => {
   const [usersData, setUsersData] = React.useState([]);
+  const [updateDataPost, setUpdeteDataPost] = React.useState({})
   const [editAnnoun, setEditAnnoun] = React.useState({
     valueTitle: "",
     valueBody: "",
@@ -53,7 +54,7 @@ const Announcement = ({ id, title, body, userId }) => {
     setEditAnnoun((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const editAnnounFunction = (title, body, id) => {
+  const editAnnounFunction = async (title, body, id) => {
     const data = {
       title,
       body,
@@ -64,11 +65,22 @@ const Announcement = ({ id, title, body, userId }) => {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.patch(
+    await axios.patch(
       `https://ekreative-json-server.herokuapp.com/664/announcements/${id}`,
       data,
       { headers }
-    );
+    )
+    .then(response => {
+        setEditAnnoun((prevState) => ({
+      ...prevState,
+      response: response.data
+    }))
+    })
+    
+    setEditAnnoun((prevState) => ({
+      ...prevState,
+      openUptAnnoun: false
+    }))
   };
 
   const deleteAnnoun = (id) => {
@@ -80,6 +92,8 @@ const Announcement = ({ id, title, body, userId }) => {
       `https://ekreative-json-server.herokuapp.com/664/announcements/${id}`,
       { headers }
     );
+
+    
   };
 
   return editAnnoun.openUptAnnoun ? (

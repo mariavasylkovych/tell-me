@@ -1,7 +1,7 @@
 @import "../variables";
 
 .announcements-home {
-  // margin: 15% 0;
+  padding: 0 20px 20px 0;
   background-color: rgba(209, 209, 209, 0.377);
 
   .header-announs {
@@ -104,7 +104,6 @@
   .block-button-announ {
     display: flex;
     justify-content: end;
-    margin: 20px;
 
 
     .button-add-announ {
@@ -114,7 +113,7 @@
        border-top: none;
        border-bottom: none;
        padding: 8px;
-       margin: 0 0 0 20%;
+      //  margin: 0 0 0 20%;
        
     }
 

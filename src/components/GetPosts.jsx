@@ -1,11 +1,12 @@
 // import axios from "axios";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PostBlock, Pagination } from "./index";
 import "../scss/components/getPosts.scss";
 import Announcement from "./Announcement";
 import { Link } from "react-router-dom";
 import "../scss/components/announcement.scss";
+import { setPosts } from "../redux/action";
 
 var currentdate = new Date();
 
@@ -23,17 +24,23 @@ var datetime =
   currentdate.getSeconds();
 
 const GetPosts = () => {
-  const [posts, setPosts] = React.useState([]);
+  // const [posts, setPosts] = React.useState([]);
   const [announcements, setAnnouncements] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [postsPerPage] = React.useState(10);
+
   const postsPages = useSelector((state) => state.paginateReducer);
   // console.log(postsPages);
+
+  const posts = useSelector((state) => state.posts)
+  const dispatch = useDispatch()
+  console.log(posts);
 
   React.useEffect(() => {
     fetch(`https://ekreative-json-server.herokuapp.com/664/posts`)
       .then((response) => response.json())
       .then((data) => {
-        setPosts(data);
+        dispatch(setPosts(data))
       });
   }, []);
 
@@ -49,6 +56,10 @@ const GetPosts = () => {
       .then((data) => setAnnouncements(data));
   };
 
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   return (
     <div className="get-posts" id="posts">
         <h3 className="header-posts">all posts</h3>
@@ -57,7 +68,7 @@ const GetPosts = () => {
           <PostBlock key={dataPost.id} {...dataPost} />
         ))}
       </div>
-      <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} />
+      <Pagination  postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} />
       <div className="announcements-home">
         <h3 className="header-announs">announcements</h3>
         <div className="announcements">

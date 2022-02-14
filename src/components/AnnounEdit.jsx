@@ -42,6 +42,9 @@ console.log(dataAnnoun);
     axios.patch(`https://ekreative-json-server.herokuapp.com/664/announcements/${dataAnnoun.id}`, data, {
       headers,
     });
+
+    // axios.get(`https://ekreative-json-server.herokuapp.com/664/announcements/${dataAnnoun.id}`)
+    // .then(response => dispatch())
   };
 
   function handleChange(e) {

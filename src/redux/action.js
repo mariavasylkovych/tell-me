@@ -4,6 +4,7 @@ export const GET_POSTS_PAGE = "GET_POSTS_PAGE";
 export const ANNOUN_USER = "ANNOUN_USER";
 export const DATA_EDIT_ANNOUN = "DATA_EDIT_ANNOUN";
 export const DATA_OF_POST = "DATA_OF_POST";
+export const POSTS = 'POSTS'
 
 export const setAddData = ({ id, title, body, userId, createdAt, key }) => ({
   type: ADD_DATA_TO_EDIT,
@@ -70,6 +71,12 @@ export const setDataEditAnnoun = (data) => ({
 });
 
 export const setDataOfPost =
-  (id, title, body, userId, postId) => async (dispatch) => {
+  (id, title, body, userId) => async (dispatch) => {
     dispatch({ type: DATA_OF_POST, id, title, body, userId });
   };
+
+
+export const setPosts = (posts) => ({
+  type: POSTS,
+  posts
+})
