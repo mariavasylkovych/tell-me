@@ -26,6 +26,11 @@ export const setDataAnnouncements = (data) => ({
   payload: data
 })
 
+export const setDataCreateAnnoun = (data) => ({
+  type: DATA_CREATE_ANNOUN,
+  payload: data,
+});
+
 export const setDataEditAnnoun = (data) => ({
   type: DATA_EDIT_ANNOUN,
   payload: data,
@@ -33,11 +38,6 @@ export const setDataEditAnnoun = (data) => ({
 
 export const setDataDeleteAnnoun = (data) => ({
   type: DATA_DELETE_ANNOUN,
-  payload: data,
-});
-
-export const setDataCreateAnnoun = (data) => ({
-  type: DATA_CREATE_ANNOUN,
   payload: data,
 });
 
@@ -54,6 +54,11 @@ export const setDataOfPost = (dataPost) => ({
   payload: dataPost
   })
 
+  export const setDataCreatePost = (data) => ({
+  type: DATA_CREATE_POST,
+  payload: data
+  })
+
 export const updatePostData = (updatedPost) => ({
   type: UPDATE_POST,
   payload: updatedPost,
@@ -64,16 +69,17 @@ export const setDataDeletePost = (data) => ({
   payload: data
 })
 
-export const setDataCreatePost = (data) => ({
-  type: DATA_CREATE_POST,
-  payload: data
-})
 
 
 
 
 export const setComments = (data) => ({
   type: DATA_COMMENTS,
+  payload: data
+})
+
+export const setDataCreateComment = (data) => ({
+  type: DATA_CREATE_COMMENT,
   payload: data
 })
 
@@ -87,7 +93,4 @@ export const setDataDeleteComment = (data) => ({
   payload: data
 })
 
-export const setDataCreateComment = (data) => ({
-  type: DATA_CREATE_COMMENT,
-  payload: data
-})
+

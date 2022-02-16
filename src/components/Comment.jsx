@@ -1,8 +1,10 @@
 import axios from "axios";
 import React from "react";
+
+import "../scss/components/comments.scss";
+
 import { useDispatch } from "react-redux";
 import { setDataDeleteComment, setDataUpdateComment } from "../redux/action";
-import "../scss/components/comments.scss";
 
 var currentdate = new Date();
 var datetime =
@@ -26,7 +28,6 @@ const Comment = (comment) => {
     id: "",
   });
   let dataAboutUser = JSON.parse(localStorage.user);
-
 
   const dispatch = useDispatch()
 
@@ -56,7 +57,7 @@ const Comment = (comment) => {
     }));
   };
 
-  const updateComment = ({ id }, updateBody) => {
+  const updateComment = ( id, updateBody) => {
     const data = {
       body: updateBody,
       updatedAt: datetime,
@@ -84,7 +85,9 @@ const Comment = (comment) => {
     axios.delete(
       `https://ekreative-json-server.herokuapp.com/664/comments/${id}`,
       { headers }
-    ).then(response => dispatch(setDataDeleteComment(response.data)))
+    )
+    
+    dispatch(setDataDeleteComment(id))
   };
 
   return (

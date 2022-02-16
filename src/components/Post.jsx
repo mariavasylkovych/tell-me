@@ -1,13 +1,19 @@
 import axios from "axios";
 import classNames from "classnames";
 import React from "react";
-import { useSelector } from "react-redux";
-import Comment from "./Comment";
+
 import "../scss/components/post.scss";
 import "../scss/components/comments.scss";
+
+import { useSelector } from "react-redux";
+import { Comment } from "./index";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setComments, setDataCreateComment, setDataDeletePost, setDataOfPost} from "../redux/action";
+import {
+  setDataCreateComment,
+  setDataDeletePost,
+  setDataOfPost,
+} from "../redux/action";
 
 var currentdate = new Date();
 var datetime =
@@ -27,10 +33,10 @@ const Post = () => {
   const [usersData, setUsersData] = React.useState([]);
   const [newComment, setNewComment] = React.useState("");
   const [updPost, setUpdPost] = React.useState({
-    body: '',
+    body: "",
     title: "",
     openEdit: false,
-    response: {}
+    response: {},
   });
 
   const dataPost = useSelector((state) => state.posts.dataPost);
@@ -38,10 +44,10 @@ const Post = () => {
 
   let dataAboutUser = JSON.parse(localStorage.user);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-   fetch(
+    fetch(
       `https://ekreative-json-server.herokuapp.com/users/${dataPost.userId}`
     )
       .then((response) => response.json())
@@ -51,7 +57,6 @@ const Post = () => {
   }, []);
 
   const updatePost = async (title, body, id) => {
-
     const data = {
       title,
       body,
@@ -62,35 +67,30 @@ const Post = () => {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.patch(
-      `https://ekreative-json-server.herokuapp.com/664/posts/${dataPost.id}`,
-      data,
-      { headers }
-    ).then(response => 
-      dispatch(setDataOfPost(response.data))
-    )
-    
+    axios
+      .patch(
+        `https://ekreative-json-server.herokuapp.com/664/posts/${dataPost.id}`,
+        data,
+        { headers }
+      )
+      .then((response) => dispatch(setDataOfPost(response.data)));
+
     setUpdPost((prevState) => ({
       ...prevState,
-      openEdit: false
-    }))
-
-
+      openEdit: false,
+    }));
   };
 
-
-  const deletePost = async (id) => {
+  const deletePost = (id) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
     axios.delete(
       `https://ekreative-json-server.herokuapp.com/664/posts/${id}`,
       { headers }
-    )
-      .then(response => dispatch(setDataDeletePost(response.data)))
-  }
-
-  
+    );
+    dispatch(setDataDeletePost(id));
+  };
 
   const openEditPost = (body, title) => {
     setUpdPost({
@@ -108,33 +108,30 @@ const Post = () => {
     }));
   };
 
-  
   const handleChangeUserComment = (e) => {
     e.preventDefault();
     setNewComment(e.target.value);
   };
 
   const addComment = (postId) => {
-    setNewComment('');
+    setNewComment("");
     const data = {
       postId,
       body: newComment,
       createdAt: datetime,
       updatedAt: "",
-      userId: dataAboutUser.id
+      userId: dataAboutUser.id,
     };
 
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.post(
-      `https://ekreative-json-server.herokuapp.com/664/comments`,
-      data,
-      {headers}
-    )
-      .then(response => dispatch(setDataCreateComment(response.data)))
-
+    axios
+      .post(`https://ekreative-json-server.herokuapp.com/664/comments`, data, {
+        headers,
+      })
+      .then((response) => dispatch(setDataCreateComment(response.data)));
   };
 
   return (
@@ -177,7 +174,8 @@ const Post = () => {
               <p className="post-user">
                 {usersData.firstname} {usersData.lastname}
               </p>
-              {localStorage.getItem("token") && usersData.id === dataAboutUser.id ? (
+              {localStorage.getItem("token") &&
+              usersData.id === dataAboutUser.id ? (
                 <div className="content-button">
                   <button
                     className={classNames("button-post", "button")}
@@ -185,8 +183,8 @@ const Post = () => {
                   >
                     Edit
                   </button>
-                    <Link
-                      to={'/'}
+                  <Link
+                    to={"/"}
                     className={classNames("button-post", "button")}
                     onClick={() => deletePost(dataPost.id)}
                   >
@@ -210,8 +208,14 @@ const Post = () => {
                   type="text"
                   value={newComment}
                   onChange={handleChangeUserComment}
-                />
-                <button onClick={() => {addComment(dataPost.id)}}>&#43;</button>
+                  />
+                <button
+                  onClick={() => {
+                    addComment(dataPost.id);
+                  }}
+                >
+                  &#43;
+                    </button>
               </div>
             ) : (
               ""

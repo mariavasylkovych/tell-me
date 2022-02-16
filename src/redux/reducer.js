@@ -102,10 +102,9 @@ export const announcementsReducer = (state = initialState, action) => {
         ),
       };
     case DATA_CREATE_ANNOUN:
-      state.announcements.unshift(action.payload);
       return {
         ...state,
-        announcements: state.announcements,
+        announcements: [...state.announcements, action.payload],
       };
     default:
       return state;
@@ -143,10 +142,9 @@ export const posts = (state = initialState, action) => {
         posts: state.posts.filter((post) => post.id !== action.payload),
       };
     case DATA_CREATE_POST:
-      state.posts.unshift(action.payload);
       return {
         ...state,
-        posts: state.posts,
+        posts: [...state.posts, action.payload],
       };
     default:
       return state;
@@ -162,30 +160,27 @@ export const commentsReducer = (state = initialState, action) => {
         ...state,
         comments: action.payload,
       };
-    // case UPDATE_COMMENT:
-    //   console.log(action.payload);
-    //   return {
-    //     ...state,
-    //     comments: state.comments.map((comment) => {
-    //       if (comment.id === action.payload.id) {
-    //         return action.payload;
-    //       }
-    //       return comment;
-    //     }),
-    //   };
-    // case DATA_DELETE_COMMENT:
-    //   return {
-    //     ...state,
-    //     comments: state.comments.filter(
-    //       (comment) => comment.id !== action.payload
-    //     ),
-    //   };
-    case DATA_CREATE_COMMENT:
-      state.comments.push(action.payload);
-      console.log(state.comments);
+    case UPDATE_COMMENT:
       return {
         ...state,
-        comments: state.comments,
+        comments: state.comments.map((comment) => {
+          if (comment.id === action.payload.id) {
+            return action.payload;
+          }
+          return comment;
+        }),
+      };
+    case DATA_DELETE_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.filter(
+          (comment) => comment.id !== action.payload
+        ),
+      };
+    case DATA_CREATE_COMMENT:
+      return {
+        ...state,
+        comments: [...state.comments, action.payload]
       };
     default:
       return state;

@@ -93,7 +93,7 @@ const Announcement = ({ id, title, body, userId }) => {
       `https://ekreative-json-server.herokuapp.com/664/announcements/${id}`,
       { headers }
     )
-    .then(response => dispatch(setDataDeleteAnnoun(id)))
+     dispatch(setDataDeleteAnnoun(id))
     
   };
 
