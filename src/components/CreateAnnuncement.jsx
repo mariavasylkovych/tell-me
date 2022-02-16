@@ -1,8 +1,11 @@
 import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button } from "./index";
+
 import "../scss/components/createPost.scss";
+
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setDataCreateAnnoun } from "../redux/action";
 
 var currentdate = new Date();
 var datetime =
@@ -26,12 +29,14 @@ function CreateAnnouncement() {
 
   let dataAboutUser = JSON.parse(localStorage.user);
 
+  const dispatch = useDispatch()
+
   const getCreateAnnoun = () => {
     const data = {
       title: announ.title,
       body: announ.body,
       userId: dataAboutUser.id,
-      createAt: datetime,
+      createdAt: datetime,
       updatedAt: '',
     };
 
@@ -40,9 +45,12 @@ function CreateAnnouncement() {
     };
 
     axios.post("https://ekreative-json-server.herokuapp.com/664/announcements", data, {
-      headers,
-    });
+      headers
+    })
+      .then(response => dispatch(setDataCreateAnnoun(response.data)))
+
   };
+
 
   function handleChange(e) {
     const { name, value } = e.target;

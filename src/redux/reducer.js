@@ -1,93 +1,193 @@
-import { ADD_DATA_TO_EDIT, ANNOUN_USER, DATA_COMMENT, DATA_OF_POST, DATA_USER, GET_POSTS_PAGE, POSTS } from "./action";
+import {
+  DATA_ANNOUN,
+  DATA_COMMENTS,
+  DATA_CREATE_ANNOUN,
+  DATA_CREATE_COMMENT,
+  DATA_CREATE_POST,
+  DATA_DELETE_ANNOUN,
+  DATA_DELETE_COMMENT,
+  DATA_DELETE_POST,
+  DATA_EDIT_ANNOUN,
+  DATA_OF_POST,
+  GET_POSTS_PAGE,
+  POSTS,
+  UPDATE_COMMENT,
+  UPDATE_POST,
+} from "./action";
+
+const initialState = {
+  posts: [],
+  announcements: [],
+  comments: [],
+  dataPost: {},
+};
 
 
-export const postReducer = (state=[], action) => {
-    switch (action.type) {
-        case ADD_DATA_TO_EDIT:
-            const { id, title, body, userId, createdAt, key } = action
-            return [
-                {
-                    id,
-                    title,
-                    body,
-                    userId,
-                    createdAt,
-                    key
-                }
-            ]
-    
-        default:
-            return state;
-    }
-}
+// export const postReducer = (state = [], action) => {
+//   switch (action.type) {
+//     case ADD_DATA_TO_EDIT:
+//       const { id, title, body, userId, createdAt, key } = action;
+//       return [
+//         {
+//           id,
+//           title,
+//           body,
+//           userId,
+//           createdAt,
+//           key,
+//         },
+//       ];
 
-export const userReducer = (state=[], action) => {
-    switch (action.type) {
-        case DATA_USER:
-            const { id, email, firstname, lastname, age, avatar } = action
-            console.log(email);
-            return [
-                {
-                    id,
-                    email,
-                    firstname,
-                    lastname,
-                    age,
-                    avatar
-                }
-            ]
-        default:
-            return state;
-    }
-}
+//     default:
+//       return state;
+//   }
+// };
 
-export const paginateReducer = (state = [], action) => {
-    switch (action.type) {
-        case GET_POSTS_PAGE:
-            return state= action.posts
-        default:
-            return state;
-    }
-}
+// export const userReducer = (state = [], action) => {
+//   switch (action.type) {
+//     case DATA_USER:
+//       const { id, email, firstname, lastname, age, avatar } = action;
+//       console.log(email);
+//       return [
+//         {
+//           id,
+//           email,
+//           firstname,
+//           lastname,
+//           age,
+//           avatar,
+//         },
+//       ];
+//     default:
+//       return state;
+//   }
+// };
 
-export const announUserReducer = (state = [], action) => {
-    switch (action.type) {
-        case ANNOUN_USER:
-            return state = action.dataUser
-        default:
-            return state;
-    }
-}
-export const announReducer = (state = {}, action) => {
-    switch (action.type) {
-        case ANNOUN_USER:
-            return state = action.data
-        default:
-            return state;
-    }
-}
+export const paginateReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_POSTS_PAGE:
+      return {
+        ...state,
+        posts: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
-export const dataPostReducer = (state = {}, action) => {
-    switch (action.type) {
-        case DATA_OF_POST:
-            return {
-                ...state,
-                id: action.id,
-                title: action.title,
-                body: action.body,
-                userId: action.userId,
-    }            
-        default:
-            return state;
-    }
-}
 
-export const posts = (state = [], action) => {
-    switch (action.type) {
-        case POSTS:
-            return state = action.posts
 
-        default:
-            return state;
-    }
-}
+export const announcementsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case DATA_ANNOUN:
+      return {
+        ...state,
+        announcements: action.payload,
+      };
+    case DATA_EDIT_ANNOUN:
+      return {
+        ...state,
+        announcements: state.announcements.map((announ) => {
+          if (announ.id === action.payload.id) {
+            return action.payload;
+          }
+          return announ;
+        }),
+      };
+    case DATA_DELETE_ANNOUN:
+      return {
+        ...state,
+        announcements: state.announcements.filter(
+          (announ) => announ.id !== action.payload
+        ),
+      };
+    case DATA_CREATE_ANNOUN:
+      state.announcements.unshift(action.payload);
+      return {
+        ...state,
+        announcements: state.announcements,
+      };
+    default:
+      return state;
+  }
+};
+
+
+
+
+export const posts = (state = initialState, action) => {
+  switch (action.type) {
+    case POSTS:
+      return {
+        ...state,
+        posts: action.payload,
+      };
+    case DATA_OF_POST:
+      return {
+        ...state,
+        dataPost: action.payload,
+      };
+    case UPDATE_POST:
+      return {
+        ...state,
+        posts: state.posts.map((post) => {
+          if (post.id === action.payload.id) {
+            return action.payload;
+          }
+          return post;
+        }),
+      };
+    case DATA_DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post.id !== action.payload),
+      };
+    case DATA_CREATE_POST:
+      state.posts.unshift(action.payload);
+      return {
+        ...state,
+        posts: state.posts,
+      };
+    default:
+      return state;
+  }
+};
+
+
+
+export const commentsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case DATA_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload,
+      };
+    // case UPDATE_COMMENT:
+    //   console.log(action.payload);
+    //   return {
+    //     ...state,
+    //     comments: state.comments.map((comment) => {
+    //       if (comment.id === action.payload.id) {
+    //         return action.payload;
+    //       }
+    //       return comment;
+    //     }),
+    //   };
+    // case DATA_DELETE_COMMENT:
+    //   return {
+    //     ...state,
+    //     comments: state.comments.filter(
+    //       (comment) => comment.id !== action.payload
+    //     ),
+    //   };
+    case DATA_CREATE_COMMENT:
+      state.comments.push(action.payload);
+      console.log(state.comments);
+      return {
+        ...state,
+        comments: state.comments,
+      };
+    default:
+      return state;
+  }
+};

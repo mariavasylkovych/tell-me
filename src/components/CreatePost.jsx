@@ -1,8 +1,11 @@
 import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button } from "./index";
+
 import "../scss/components/createPost.scss";
+
+import { Link } from "react-router-dom";
+import { setDataCreatePost } from "../redux/action";
+import { useDispatch } from "react-redux";
 
 var currentdate = new Date();
 var datetime =
@@ -26,6 +29,8 @@ function CreatePost() {
 
   let dataAboutUser = JSON.parse(localStorage.user);
 
+  const dispatch = useDispatch()
+
   const getCreatePost = () => {
     const data = {
       title: post.title,
@@ -39,12 +44,16 @@ function CreatePost() {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    axios.post("https://ekreative-json-server.herokuapp.com/664/posts", data, {
+   axios.post("https://ekreative-json-server.herokuapp.com/664/posts", data, {
       headers,
     });
-  };
 
-  function handleChange(e) {
+     axios.get("https://ekreative-json-server.herokuapp.com/664/posts")
+    .then(response =>  dispatch(setDataCreatePost(response.data)))
+
+  }
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setPost((prevState) => ({ ...prevState, [name]: value }));
   }

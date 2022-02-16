@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
-// import { useSelector, useDispatch } from "react-redux";
-// import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setDataDeleteComment, setDataUpdateComment } from "../redux/action";
 import "../scss/components/comments.scss";
 
 var currentdate = new Date();
@@ -18,27 +18,27 @@ var datetime =
   ":" +
   currentdate.getSeconds();
 
-const Comment = ({ id, body, userId }) => {
+const Comment = (comment) => {
   const [usersData, setUsersData] = React.useState([]);
   const [updateCommentBody, setUpdateCommentBody] = React.useState({
     value: "",
     openUptComm: false,
     id: "",
   });
-
   let dataAboutUser = JSON.parse(localStorage.user);
 
-  React.useEffect(() => {
-    getDataUser();
-  }, []);
 
-  const getDataUser = () => {
-    fetch(`https://ekreative-json-server.herokuapp.com/users/${userId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUsersData(data);
-      });
-  };
+  const dispatch = useDispatch()
+
+  // React.useEffect(() => {
+  //   fetch(`https://ekreative-json-server.herokuapp.com/users/${userId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUsersData(data);
+  //     });
+  // }, []);
+
+ 
 
   const handleChange = (e) => {
     setUpdateCommentBody((prevState) => ({
@@ -67,8 +67,9 @@ const Comment = ({ id, body, userId }) => {
     axios.patch(
       `https://ekreative-json-server.herokuapp.com/664/comments/${id}`,
       data,
-      headers
-    );
+      {headers}
+    )
+      .then(response => dispatch(setDataUpdateComment(response.data)))
 
     setUpdateCommentBody((prevState) => ({
       ...prevState,
@@ -76,41 +77,39 @@ const Comment = ({ id, body, userId }) => {
     }));
   };
 
-  const deleteComment = (id, postId) => {
+  const deleteComment = (id) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
     axios.delete(
       `https://ekreative-json-server.herokuapp.com/664/comments/${id}`,
       { headers }
-    );
-    console.log(`Bearer` + localStorage.getItem("token"));
-    document.location.reload(true);
+    ).then(response => dispatch(setDataDeleteComment(response.data)))
   };
 
   return (
-    <div key={id} className="comment-data">
-      {updateCommentBody.openUptComm && id === updateCommentBody.id ? (
+    <div key={comment.id} className="comment-data">
+      {updateCommentBody.openUptComm && comment.id === updateCommentBody.id ? (
         <div className="comment-content-for-update">
           <input
             type="text"
             value={updateCommentBody.value}
             onChange={handleChange}
           />
-          <button onClick={() => updateComment(id, updateCommentBody.value)}>
+          <button onClick={() => updateComment(comment.id, updateCommentBody.value)}>
             Update
           </button>
         </div>
       ) : (
-            <div key={id + 3 + "li"} className="comment-content">
+            <div key={comment.id + 3 + "li"} className="comment-content">
               <img className="user-avatar" src={usersData.avatar} alt="" />
-            <p>{body}</p>
-            {localStorage.getItem("token") && dataAboutUser.id === userId ? (
-              <div key={id + 1} className="button-block">
-                <button onClick={() => openUpdateBlock(id, body)}>
+            <p>{comment.body}</p>
+            {localStorage.getItem("token") && dataAboutUser.id === comment.userId ? (
+              <div key={comment.id + 1} className="button-block">
+                <button onClick={() => openUpdateBlock(comment.id, comment.body)}>
                   Update
                 </button>
-                <button key={id + 2} onClick={() => deleteComment(id)}>
+                <button key={comment.id + 2} onClick={() => deleteComment(comment.id)}>
                   Delete
                 </button>
               </div>

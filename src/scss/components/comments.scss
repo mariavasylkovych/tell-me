@@ -35,6 +35,8 @@
         border-bottom: none;
         border-right: none;
         padding: 5px;
+        background-color: rgba(0, 0, 0, 0);
+        color: $yellow;
       }
 
       button:hover {
@@ -78,6 +80,8 @@
         border-right: none;
         padding: 5px;
         margin: 0 0 0 20%;
+        background-color: rgba(0, 0, 0, 0);
+        color: $yellow;
       }
 
       button:hover {

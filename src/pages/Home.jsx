@@ -1,45 +1,89 @@
 // import axios from 'axios';
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { Button, GetPosts } from "../components/index";
+import { GetPosts } from "../components/index";
+import { setPosts, setDataAnnouncements, setGetPostsPage } from "../redux/action";
 import "../scss/app.scss";
-import '../scss/components/button.scss'
+import "../scss/components/button.scss";
 
 function Home() {
-  
   // const dataUser = useSelector(state => state.userReducer)
   // console.log(dataUser);
 
-  let data = JSON.parse(localStorage.user)
+  let data = JSON.parse(localStorage.user);
 
-    const openMenu = () => {
-        document.getElementById('menu').classList.toggle("show")  
-    }
-  
+  const dispatch = useDispatch();
+  const openMenu = () => {
+    document.getElementById("menu").classList.toggle("show");
+  };
+
   const deletToken = () => {
-    localStorage.removeItem('token')
-    document.location.reload(true)
-  }
+    localStorage.removeItem("token");
+    document.location.reload(true);
+  };
+
+  React.useEffect(() => {
+    fetch(
+      `https://ekreative-json-server.herokuapp.com/664/announcements?_sort=createdAt&_order=desc&_limit=10`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setDataAnnouncements(data));
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch(`https://ekreative-json-server.herokuapp.com/664/posts`)
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setPosts(data));
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch(
+      `https://ekreative-json-server.herokuapp.com/posts?_page=${1}&_limit=${10}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setGetPostsPage(data));
+      });
+  }, []);
 
   return (
     <div className="home">
-      {localStorage.getItem('token') ? (
+      {localStorage.getItem("token") ? (
         <div className="for-autho-user">
-         
           <div className="menu-block">
             <div className="data-of-user">
-            <img className="avatar" src={data.avatar} alt="" />
-            <Link to='user-page'><p>{data.firstname} {data.lastname}</p></Link>
-          </div>
-            <img  src="https://img.icons8.com/ios-glyphs/30/ffffff/menu--v1.png" onClick={openMenu} className="menu-icon"/>
+              <img className="avatar" src={data.avatar} alt="" />
+              <Link to="user-page">
+                <p>
+                  {data.firstname} {data.lastname}
+                </p>
+              </Link>
+            </div>
+            <img
+              src="https://img.icons8.com/ios-glyphs/30/ffffff/menu--v1.png"
+              onClick={openMenu}
+              className="menu-icon"
+            />
             <ul id="menu">
-              <Link to="create"><li>Cre<span>a</span>te</li></Link>
-              <Link to='/'><li onClick={deletToken}>Log<span>o</span>ut</li></Link>
+              <Link to="create">
+                <li>
+                  Cre<span>a</span>te
+                </li>
+              </Link>
+              <Link to="/">
+                <li onClick={deletToken}>
+                  Log<span>o</span>ut
+                </li>
+              </Link>
             </ul>
           </div>
-           
+
           <div className="content-header">
             <h1>
               Tell <span>me</span>
@@ -49,8 +93,8 @@ function Home() {
               May be you want write post about new dream or little history...{" "}
               <br /> You may do it here:
             </p>
-            <Link to="create">
-              <Button className="button-home">Create new post</Button>
+            <Link to="create" className="button-home">
+              Create new post
             </Link>
           </div>
         </div>
@@ -65,19 +109,18 @@ function Home() {
             Have a nice tripe in our world!
           </p>
           <div>
-            <Link to="login">
-              <Button className="button-home">Login</Button>
+            <Link to="login" className="button-home">
+              Login
             </Link>
             <span>or</span>
-            <Link to="/signup">
-              <Button className="button-home">Register</Button>
+            <Link to="/signup" className="button-home">
+              Register
             </Link>
-            <Link to=''><span className='arrow'>&#709;</span></Link>
           </div>
-        // </div>
-        )} 
+        </div>
+      )}
       <div className="home-content">
-         <GetPosts />
+        <GetPosts />
         {/* <NavLink to={'/login'}>Login</NavLink><br/>
             <NavLink to={'/signup'}>signup</NavLink> */}
       </div>

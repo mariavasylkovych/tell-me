@@ -7,7 +7,7 @@ import "../scss/components/post.scss";
 import "../scss/components/comments.scss";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setDataOfPost, setPosts } from "../redux/action";
+import { setComments, setDataCreateComment, setDataDeletePost, setDataOfPost} from "../redux/action";
 
 var currentdate = new Date();
 var datetime =
@@ -25,57 +25,72 @@ var datetime =
 
 const Post = () => {
   const [usersData, setUsersData] = React.useState([]);
-  const [comments, setComments] = React.useState([]);
   const [newComment, setNewComment] = React.useState("");
   const [updPost, setUpdPost] = React.useState({
-    body: "",
+    body: '',
     title: "",
     openEdit: false,
     response: {}
   });
 
-  let data = JSON.parse(localStorage.user);
-  const dataPost = useSelector((state) => state.dataPostReducer);
+  const dataPost = useSelector((state) => state.posts.dataPost);
+  const comments = useSelector((state) => state.commentsReducer.comments);
+
+  let dataAboutUser = JSON.parse(localStorage.user);
+
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    getDataUser()
-  }, []);
-
-  const getDataUser = () => {
-    fetch(
+   fetch(
       `https://ekreative-json-server.herokuapp.com/users/${dataPost.userId}`
     )
       .then((response) => response.json())
       .then((data) => {
         setUsersData(data);
       });
-  }
+  }, []);
 
-  const deletePost = (id) => {
+  const updatePost = async (title, body, id) => {
+
+    const data = {
+      title,
+      body,
+      updateAt: datetime,
+    };
+
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
+    };
+
+    axios.patch(
+      `https://ekreative-json-server.herokuapp.com/664/posts/${dataPost.id}`,
+      data,
+      { headers }
+    ).then(response => 
+      dispatch(setDataOfPost(response.data))
+    )
+    
+    setUpdPost((prevState) => ({
+      ...prevState,
+      openEdit: false
+    }))
+
+
+  };
+
+
+  const deletePost = async (id) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
     axios.delete(
       `https://ekreative-json-server.herokuapp.com/664/posts/${id}`,
       { headers }
-    );
-
-  };
-
-  React.useEffect(() => {
-    getDataComment();
-  }, []);
-
-  const getDataComment = () => {
-    fetch(
-      `https://ekreative-json-server.herokuapp.com/comments?postId=${dataPost.id}&_sort=createdAt&_order=asc`
     )
-      .then((response) => response.json())
-      .then((data) => {
-        setComments(data);
-      });
-  };
+      .then(response => dispatch(setDataDeletePost(response.data)))
+  }
+
+  
 
   const openEditPost = (body, title) => {
     setUpdPost({
@@ -93,49 +108,20 @@ const Post = () => {
     }));
   };
 
-  const updatePost = async (title, body, id) => {
-
-    const data = {
-      title,
-      body,
-      updateAt: datetime,
-    };
-
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
-    };
-
-    await axios.patch(
-      `https://ekreative-json-server.herokuapp.com/664/posts/${id}`,
-      data,
-      { headers }
-    )
-
-    await axios.get(`https://ekreative-json-server.herokuapp.com/664/posts/${id}`)
-      .then(response => dispatch(setDataOfPost(response.data.id, response.data.body, response.data.title, response.data.userId)));
-    
-    await axios.get('https://ekreative-json-server.herokuapp.com/posts')
-    .then(response => dispatch(setPosts(response.data)))
-    
-    setUpdPost((prevState) => ({
-      ...prevState,
-      openEdit: false
-    }))
-
-  };
-
+  
   const handleChangeUserComment = (e) => {
     e.preventDefault();
     setNewComment(e.target.value);
   };
 
   const addComment = (postId) => {
+    setNewComment('');
     const data = {
       postId,
-      // userId: dataAboutUser.id,
       body: newComment,
       createdAt: datetime,
       updatedAt: "",
+      userId: dataAboutUser.id
     };
 
     const headers = {
@@ -145,12 +131,10 @@ const Post = () => {
     axios.post(
       `https://ekreative-json-server.herokuapp.com/664/comments`,
       data,
-      headers
-    );
+      {headers}
+    )
+      .then(response => dispatch(setDataCreateComment(response.data)))
 
-    
-
-    // updateDiv(postId)
   };
 
   return (
@@ -193,7 +177,7 @@ const Post = () => {
               <p className="post-user">
                 {usersData.firstname} {usersData.lastname}
               </p>
-              {localStorage.getItem("token") && usersData.id === data.id ? (
+              {localStorage.getItem("token") && usersData.id === dataAboutUser.id ? (
                 <div className="content-button">
                   <button
                     className={classNames("button-post", "button")}
@@ -221,13 +205,13 @@ const Post = () => {
             ))}
             {localStorage.getItem("token") ? (
               <div className="comment-input-block">
-                <img src={data.avatar} alt="" />
+                <img src={dataAboutUser.avatar} alt="" />
                 <input
                   type="text"
                   value={newComment}
                   onChange={handleChangeUserComment}
                 />
-                <button onClick={() => addComment(dataPost.id)}>&#43;</button>
+                <button onClick={() => {addComment(dataPost.id)}}>&#43;</button>
               </div>
             ) : (
               ""

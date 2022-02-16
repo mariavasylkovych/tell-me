@@ -1,6 +1,6 @@
-import React from "react";
-import { Input, Button } from "../components/index";
 import axios from "axios";
+import React from "react";
+import { Input } from "../components/index";
 import { Link } from "react-router-dom";
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
@@ -104,7 +104,7 @@ function Signup() {
     }
   }
 
-  function getSingup() {
+  const getSingup = () => {
     const authData = {
       email: user.email,
       password: user.password,

@@ -1,16 +1,14 @@
 import axios from "axios";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { Link } from "react-router-dom";
-import { setDataUser } from "../redux/action";
 
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  // const [user, setUser] = React.useState([])
   const [error, setError] = React.useState("");
 
-  const dispatch = useDispatch();
+  const user = localStorage.getItem("user");
 
   const getLogin = () => {
     if (email === "" || password === "") {
@@ -18,9 +16,6 @@ function Login() {
       return;
     }
 
-    // setUser(response.data.user);
-    // dispatch(setDataUser(response.data.user))
-    // localStorage.setItem('data', response.data);
     const data = {
       email: email,
       password: password,
@@ -40,8 +35,6 @@ function Login() {
         }
       });
   };
-
-  const user = localStorage.getItem("user");
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,6 +1,10 @@
 import axios from "axios";
 import React from "react";
+
 import "../scss/components/announcement.scss";
+
+import { useDispatch } from "react-redux";
+import { setDataDeleteAnnoun, setDataEditAnnoun } from "../redux/action";
 
 var currentdate = new Date();
 var datetime =
@@ -18,7 +22,6 @@ var datetime =
 
 const Announcement = ({ id, title, body, userId }) => {
   const [usersData, setUsersData] = React.useState([]);
-  const [updateDataPost, setUpdeteDataPost] = React.useState({})
   const [editAnnoun, setEditAnnoun] = React.useState({
     valueTitle: "",
     valueBody: "",
@@ -28,17 +31,21 @@ const Announcement = ({ id, title, body, userId }) => {
 
   let dataAboutUser = JSON.parse(localStorage.user);
 
+  const dispatch = useDispatch()
+
   React.useEffect(() => {
-    getDataUserAnnoun();
+    getDataUser()
   }, []);
 
-  const getDataUserAnnoun = () => {
-    fetch(`https://ekreative-json-server.herokuapp.com/users/${userId}`)
+  const getDataUser = () => {
+     fetch(`https://ekreative-json-server.herokuapp.com/users/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setUsersData(data);
       });
-  };
+  }
+
+  
 
   const openEditBlock = (title, body, id) => {
     setEditAnnoun({
@@ -65,18 +72,12 @@ const Announcement = ({ id, title, body, userId }) => {
       Authorization: `Bearer ${localStorage.getItem("token").slice(1, -1)}`,
     };
 
-    await axios.patch(
+     axios.patch(
       `https://ekreative-json-server.herokuapp.com/664/announcements/${id}`,
       data,
       { headers }
-    )
-    .then(response => {
-        setEditAnnoun((prevState) => ({
-      ...prevState,
-      response: response.data
-    }))
-    })
-    
+    ).then(response => dispatch(setDataEditAnnoun(response.data)))
+
     setEditAnnoun((prevState) => ({
       ...prevState,
       openUptAnnoun: false
@@ -91,8 +92,8 @@ const Announcement = ({ id, title, body, userId }) => {
     axios.delete(
       `https://ekreative-json-server.herokuapp.com/664/announcements/${id}`,
       { headers }
-    );
-
+    )
+    .then(response => dispatch(setDataDeleteAnnoun(id)))
     
   };
 
