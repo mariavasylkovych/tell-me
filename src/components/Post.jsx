@@ -15,7 +15,6 @@ import {
   setDataDeletePost,
   setDataOfPost,
   setUserData,
-  // setUserData,
 } from "../redux/action";
 
 var currentdate = new Date();
@@ -69,12 +68,6 @@ const Post = () => {
     return true;
   };
 
-  const action = (data) => {
-    return dispatch => {
-      
-      dispatch(setUserData(data))
-    }
-  }
 
   React.useEffect(() => {
     fetch(`https://ekreative-json-server.herokuapp.com/664/posts`)

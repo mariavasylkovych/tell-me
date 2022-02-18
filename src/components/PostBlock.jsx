@@ -3,7 +3,7 @@ import React from "react";
 import "../scss/components/postBlock.scss";
 
 import { Link } from "react-router-dom";
-import { setComments, setDataOfPost, setUserData } from "../redux/action";
+import { setDataOfPost, setUserData } from "../redux/action";
 import { useDispatch } from "react-redux";
 
 const PostBlock = (dataPost) => {

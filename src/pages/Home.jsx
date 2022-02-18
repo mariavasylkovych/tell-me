@@ -6,7 +6,7 @@ import "../scss/components/button.scss";
 
 import { Link } from "react-router-dom";
 import { GetPosts } from "../components/index";
-import { setPosts, setDataAnnouncements, setGetPostsPage, setDataOfPost } from "../redux/action";
+import { setPosts, setDataAnnouncements, setGetPostsPage } from "../redux/action";
 
 
 function Home() {
