@@ -24,7 +24,6 @@ function Login() {
     axios
       .post("https://ekreative-json-server.herokuapp.com/login", data)
       .then((response) => {
-        console.log(response);
         localStorage.user = JSON.stringify(response.data.user);
         window.localStorage.setItem(
           "token",

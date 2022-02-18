@@ -1,8 +1,9 @@
-// import classNames from 'classnames'
 import React from "react";
-import { useDispatch } from "react-redux";
-import { setGetPostsPage } from "../redux/action";
+
 import "../scss/components/pagination.scss";
+
+import { useDispatch } from "react-redux";
+import { setEditPostsPage } from "../redux/action";
 
 const Pagination = ({
   currentPage,
@@ -11,7 +12,7 @@ const Pagination = ({
   setCurrentPage,
 }) => {
   const paginPageWithPosts = [];
-  const response = [];
+
 
   const dispatch = useDispatch();
 
@@ -19,29 +20,21 @@ const Pagination = ({
     paginPageWithPosts.push(i);
   }
 
-  const pagFunc = (response, number) => {
-    setCurrentPage(number);
-
-    //   dispatch(setGetPostsPage(response));
-      
-      fetch(
-      `https://ekreative-json-server.herokuapp.com/posts?_page=${currentPage}&_limit=${postsPerPage}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(setGetPostsPage(data));
-      });
+  const pagFunc = (number) => {
+    setCurrentPage(number)
+    
+      dispatch(setEditPostsPage(number, postsPerPage));
   };
-
   
-
   return (
     <div className="pagination">
       {paginPageWithPosts.map((number, index) => (
         <button
           id={`${index + 1}`}
           key={number}
-          onClick={() => pagFunc(response, number)}
+          onClick={() => {
+            pagFunc(number)
+           }}
           className={index + 1 === currentPage ? "active" : "button-pag"}
         >
           {number}

@@ -31,13 +31,13 @@ const Comment = (comment) => {
 
   const dispatch = useDispatch()
 
-  // React.useEffect(() => {
-  //   fetch(`https://ekreative-json-server.herokuapp.com/users/${userId}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setUsersData(data);
-  //     });
-  // }, []);
+  React.useEffect(() => {
+    fetch(`https://ekreative-json-server.herokuapp.com/users/${comment.userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUsersData(data);
+      });
+  }, [comment.userId]);
 
  
 
@@ -94,6 +94,7 @@ const Comment = (comment) => {
     <div key={comment.id} className="comment-data">
       {updateCommentBody.openUptComm && comment.id === updateCommentBody.id ? (
         <div className="comment-content-for-update">
+          <img src={usersData.avatar} alt="" />
           <input
             type="text"
             value={updateCommentBody.value}

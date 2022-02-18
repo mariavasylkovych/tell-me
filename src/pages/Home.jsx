@@ -1,16 +1,15 @@
-// import axios from 'axios';
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { Link } from "react-router-dom";
-import { GetPosts } from "../components/index";
-import { setPosts, setDataAnnouncements, setGetPostsPage } from "../redux/action";
 import "../scss/app.scss";
 import "../scss/components/button.scss";
 
+import { Link } from "react-router-dom";
+import { GetPosts } from "../components/index";
+import { setPosts, setDataAnnouncements, setGetPostsPage, setDataOfPost } from "../redux/action";
+
+
 function Home() {
-  // const dataUser = useSelector(state => state.userReducer)
-  // console.log(dataUser);
 
   let data = JSON.parse(localStorage.user);
 
@@ -32,7 +31,7 @@ function Home() {
       .then((data) => {
         dispatch(setDataAnnouncements(data));
       });
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     fetch(`https://ekreative-json-server.herokuapp.com/664/posts`)
@@ -40,7 +39,7 @@ function Home() {
       .then((data) => {
         dispatch(setPosts(data));
       });
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     fetch(
@@ -50,7 +49,8 @@ function Home() {
       .then((data) => {
         dispatch(setGetPostsPage(data));
       });
-  }, []);
+  }, [dispatch]);
+
 
   return (
     <div className="home">
@@ -69,6 +69,7 @@ function Home() {
               src="https://img.icons8.com/ios-glyphs/30/ffffff/menu--v1.png"
               onClick={openMenu}
               className="menu-icon"
+              alt=''
             />
             <ul id="menu">
               <Link to="create">
@@ -121,8 +122,6 @@ function Home() {
       )}
       <div className="home-content">
         <GetPosts />
-        {/* <NavLink to={'/login'}>Login</NavLink><br/>
-            <NavLink to={'/signup'}>signup</NavLink> */}
       </div>
     </div>
   );

@@ -12,12 +12,45 @@ export const DATA_COMMENTS = 'DATA_COMMENTS'
 export const DATA_CREATE_COMMENT = 'DATA_CREATE_COMMENT'
 export const DATA_DELETE_COMMENT = 'DATA_DELETE_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
+export const EDIT_POSTS_PAGE = 'EDIT_POSTS_PAGE'
+export const USER_DATA_POST = 'USER_DATA_POST'
 
 
 export const setGetPostsPage = (response) => ({
     type: GET_POSTS_PAGE,
     payload: response,
 });
+
+
+export const setUserData = (dataPost) => async (dispatch) => {
+  const response = 
+   await fetch(
+      `https://ekreative-json-server.herokuapp.com/users/${dataPost.userId}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        return data
+      });
+  dispatch ({
+    type: USER_DATA_POST,
+    payload: response
+  })
+}
+
+export const setEditPostsPage = (currentPage, postPerPage) => async (dispatch) => {
+  const response = 
+    await fetch(
+      `https://ekreative-json-server.herokuapp.com/posts?_page=${currentPage}&_limit=${postPerPage}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        return data
+      });
+  
+  dispatch({
+    type: EDIT_POSTS_PAGE,
+    payload: response,
+})};
 
 
 

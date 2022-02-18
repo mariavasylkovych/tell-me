@@ -34,16 +34,14 @@ const Announcement = ({ id, title, body, userId }) => {
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    getDataUser()
-  }, []);
-
-  const getDataUser = () => {
      fetch(`https://ekreative-json-server.herokuapp.com/users/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setUsersData(data);
       });
-  }
+  }, [userId]);
+
+  
 
   
 

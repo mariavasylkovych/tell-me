@@ -9,10 +9,12 @@ import {
   DATA_DELETE_POST,
   DATA_EDIT_ANNOUN,
   DATA_OF_POST,
+  EDIT_POSTS_PAGE,
   GET_POSTS_PAGE,
   POSTS,
   UPDATE_COMMENT,
   UPDATE_POST,
+  USER_DATA_POST,
 } from "./action";
 
 const initialState = {
@@ -20,55 +22,35 @@ const initialState = {
   announcements: [],
   comments: [],
   dataPost: {},
+  userData: {}
 };
 
+export const userData = (state = initialState, action) => {
+  switch (action.type) {
+    case USER_DATA_POST:
+      console.log(action.payload.firstname);
+      return {
+      ...state,
+        userData: action.payload
+    }
+      
+    default:
+      return state
+  }
+}
 
-// export const postReducer = (state = [], action) => {
-//   switch (action.type) {
-//     case ADD_DATA_TO_EDIT:
-//       const { id, title, body, userId, createdAt, key } = action;
-//       return [
-//         {
-//           id,
-//           title,
-//           body,
-//           userId,
-//           createdAt,
-//           key,
-//         },
-//       ];
-
-//     default:
-//       return state;
-//   }
-// };
-
-// export const userReducer = (state = [], action) => {
-//   switch (action.type) {
-//     case DATA_USER:
-//       const { id, email, firstname, lastname, age, avatar } = action;
-//       console.log(email);
-//       return [
-//         {
-//           id,
-//           email,
-//           firstname,
-//           lastname,
-//           age,
-//           avatar,
-//         },
-//       ];
-//     default:
-//       return state;
-//   }
-// };
 
 export const paginateReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_POSTS_PAGE:
       return {
         ...state,
-        posts: action.payload,
+        posts: action.payload
+      };
+    case EDIT_POSTS_PAGE:
+      return {
+        ...state,
+        posts: action.payload
       };
     default:
       return state;

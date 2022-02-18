@@ -10,9 +10,12 @@ import { Comment } from "./index";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
+  setComments,
   setDataCreateComment,
   setDataDeletePost,
   setDataOfPost,
+  setUserData,
+  // setUserData,
 } from "../redux/action";
 
 var currentdate = new Date();
@@ -30,7 +33,6 @@ var datetime =
   currentdate.getSeconds();
 
 const Post = () => {
-  const [usersData, setUsersData] = React.useState([]);
   const [newComment, setNewComment] = React.useState("");
   const [updPost, setUpdPost] = React.useState({
     body: "",
@@ -41,22 +43,51 @@ const Post = () => {
 
   const dataPost = useSelector((state) => state.posts.dataPost);
   const comments = useSelector((state) => state.commentsReducer.comments);
+  const usersData = useSelector((state) => state.userData.userData);
 
   let dataAboutUser = JSON.parse(localStorage.user);
+  let idPost = JSON.parse(localStorage.idPost);
 
   const dispatch = useDispatch();
 
+
   React.useEffect(() => {
     fetch(
-      `https://ekreative-json-server.herokuapp.com/users/${dataPost.userId}`
+      `https://ekreative-json-server.herokuapp.com/comments?postId=${idPost}&_sort=createdAt&_order=asc`
     )
       .then((response) => response.json())
-      .then((data) => {
-        setUsersData(data);
-      });
-  }, []);
+      .then((data) => dispatch(setComments(data)));
+  }, [idPost, dispatch]);
 
-  const updatePost = async (title, body, id) => {
+
+  const isEmptyObject = (obj) => {
+    for (let property in obj) {
+      if (obj.hasOwnProperty(property)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const action = (data) => {
+    return dispatch => {
+      
+      dispatch(setUserData(data))
+    }
+  }
+
+  React.useEffect(() => {
+    fetch(`https://ekreative-json-server.herokuapp.com/664/posts`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (isEmptyObject(dataPost)) {
+             dispatch(setDataOfPost(data.find(obj => obj.id === idPost)));
+             dispatch(setUserData(data.find(obj => obj.id === idPost)));
+        }
+      });
+  });
+
+  const updatePost = async (title, body) => {
     const data = {
       title,
       body,
@@ -183,12 +214,14 @@ const Post = () => {
                   >
                     Edit
                   </button>
-                  <Link
-                    to={"/"}
-                    className={classNames("button-post", "button")}
-                    onClick={() => deletePost(dataPost.id)}
-                  >
-                    Delete
+                  <Link to="/">
+                    <button
+                      to={"/"}
+                      className={classNames("button-post", "button")}
+                      onClick={() => deletePost(dataPost.id)}
+                    >
+                      Delete
+                    </button>
                   </Link>
                 </div>
               ) : (
@@ -208,14 +241,14 @@ const Post = () => {
                   type="text"
                   value={newComment}
                   onChange={handleChangeUserComment}
-                  />
+                />
                 <button
                   onClick={() => {
                     addComment(dataPost.id);
                   }}
                 >
                   &#43;
-                    </button>
+                </button>
               </div>
             ) : (
               ""

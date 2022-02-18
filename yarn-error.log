@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add redux-thunk
+  /usr/local/bin/node /usr/local/bin/yarn add sass
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/admin/Documents/mystudy/react/tell-me-react/tell-me-react/node_modules/.bin/acorn'
+  Error: EACCES: permission denied, unlink '/Users/admin/Documents/mystudy/tell-me-react/node_modules/.bin/ansi-html'
 
 npm manifest: 
   {
